@@ -6,8 +6,8 @@ namespace OrgChartApi.Controllers {
   [Controller]
   [Route("api/[controller]")]
   public class JobsController: ControllerBase {
-    public readonly JobsRepo _repo;
-    public JobsController(JobsRepo repo) {
+    public readonly Database _repo;
+    public JobsController(Database repo) {
       _repo = repo;
     }
 

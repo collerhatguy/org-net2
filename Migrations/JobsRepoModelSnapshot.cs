@@ -9,7 +9,7 @@ using OrgChartApi.Data;
 
 namespace org_chart_net.Migrations
 {
-    [DbContext(typeof(JobsRepo))]
+    [DbContext(typeof(Database))]
     partial class JobsRepoModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

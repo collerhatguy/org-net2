@@ -10,7 +10,7 @@ using OrgChartApi.Data;
 
 namespace org_chart_net.Migrations
 {
-    [DbContext(typeof(JobsRepo))]
+    [DbContext(typeof(Database))]
     [Migration("20220810202750_Departments")]
     partial class Departments
     {
