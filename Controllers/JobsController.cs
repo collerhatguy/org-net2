@@ -14,5 +14,11 @@ namespace OrgChartApi.Controllers {
     public List<Job> GetJobs() {
       return  _repo.Jobs.ToList();
     }
+    [HttpPost]
+    public async Task<List<Job>> PostJob([FromBody]Job job) {
+      _repo.Jobs.Add(job);
+      await _repo.SaveChangesAsync();
+      return _repo.Jobs.ToList();
+    }
   }
 }
