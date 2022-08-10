@@ -5,7 +5,7 @@ using OrgChartApi.Data;
 namespace OrgChartApi.Controllers {
   [Controller]
   [Route("api/[controller]")]
-  public class JobsController {
+  public class JobsController: ControllerBase {
     public readonly JobsRepo _repo;
     public JobsController(JobsRepo repo) {
       _repo = repo;
@@ -24,11 +24,24 @@ namespace OrgChartApi.Controllers {
     }
 
     [HttpDelete("{id}")]
-    public async Task<List<Job>> DeleteJob(int id) {
+    public async Task<ActionResult<List<Job>>> DeleteJob(int id) {
       var task = _repo.Jobs.Find(id);
+      if (task is null) {
+        return NotFound();
+      }
       _repo.Jobs.Remove(task);
       await _repo.SaveChangesAsync();
       return _repo.Jobs.ToList();
+    }
+    [HttpPut]
+    public async Task<ActionResult<List<Job>>> UpdateJob([FromBody] Job job) {
+      var task = await _repo.Jobs.FindAsync(job.id);
+      if (task is null) {
+        return NotFound();
+      }
+      task.name = job.name;
+      await _repo.SaveChangesAsync();
+      return GetJobs();
     }
   }
 }
