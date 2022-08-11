@@ -32,5 +32,15 @@ namespace OrgChartApi.Controllers {
       await _context.SaveChangesAsync();
       return _context.Departments.ToList();
     } 
+    [HttpPut]
+    public async Task<ActionResult<List<Department>>> UpdateDepartment([FromBody] Department department ) {
+      var selectedDepartment = await _context.Departments.FindAsync(department.id);
+      if (selectedDepartment is null) {
+        return NotFound();
+      }
+      selectedDepartment.name = department.name;
+      await _context.SaveChangesAsync();
+      return _context.Departments.ToList();
+    }
   }
 }
