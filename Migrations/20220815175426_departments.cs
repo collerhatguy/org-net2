@@ -4,10 +4,36 @@
 
 namespace org_chart_net.Migrations
 {
-    public partial class employees : Migration
+    public partial class departments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Jobs",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -20,7 +46,7 @@ namespace org_chart_net.Migrations
                     isManager = table.Column<bool>(type: "bit", nullable: false),
                     departmentId = table.Column<int>(type: "int", nullable: false),
                     jobId = table.Column<int>(type: "int", nullable: false),
-                    managerId = table.Column<int>(type: "int", nullable: false)
+                    managerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,8 +61,7 @@ namespace org_chart_net.Migrations
                         name: "FK_Employees_Employees_managerId",
                         column: x => x.managerId,
                         principalTable: "Employees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Employees_Jobs_jobId",
                         column: x => x.jobId,
@@ -65,6 +90,12 @@ namespace org_chart_net.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Jobs");
         }
     }
 }

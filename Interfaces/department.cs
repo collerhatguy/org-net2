@@ -1,7 +1,6 @@
 
 namespace OrgChartApi.Interfaces {
-  public class Department {
+  public class Department: HasId {
     public string name { set; get;}
-    public int id { get; init;}
   }
 }

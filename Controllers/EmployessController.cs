@@ -14,5 +14,13 @@ namespace OrgChartApi.Controllers {
     public ActionResult<List<Employee>> GetEmployees() {
       return Ok(context.Employees.ToList());
     }
+    [HttpPost]
+    public async Task<ActionResult<List<Employee>>> PostEmployee([FromBody] EmployeeDto body) {
+      var job = await context.Jobs.FindAsync(body.jobId);
+      if (job is null) {
+        return NotFound();
+      }
+      return GetEmployees();
+    }
   }
 }
