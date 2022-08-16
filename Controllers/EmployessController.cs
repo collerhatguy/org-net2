@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrgChartApi.Data;
 using OrgChartApi.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace OrgChartApi.Controllers {
   [Controller]
@@ -12,9 +13,12 @@ namespace OrgChartApi.Controllers {
     }
     [HttpGet]
     public ActionResult<List<Employee>> GetEmployees() {
-      return Ok(context.Employees.ToList());
+      var employees = context.Employees
+        .Include(x => x.department)
+        .Include(x => x.manager)
+        .Include(x => x.job);
+      return Ok(employees);
     }
-    // public EmployeeDto PostEmployee([FromBody] EmployeeDto body) {
     [HttpPost]
     public async Task<ActionResult<List<Employee>>> PostEmployee([FromBody] EmployeeDto body) {
       if (body is null) {
@@ -29,6 +33,14 @@ namespace OrgChartApi.Controllers {
         return NotFound("Department does not exist");
       }
       Employee newEmp = new Employee();
+      if (body.managerId != null) {
+        var manager = await context.Employees.FindAsync(body.managerId);
+        if (department is null) {
+          return NotFound("Manager does not exist");
+        }
+        manager.isManager = true;
+        newEmp.manager = manager;
+      }
       newEmp.firstName = body.firstName;
       newEmp.lastName = body.lastName;
       newEmp.middleInitial = body.middleInitial;
