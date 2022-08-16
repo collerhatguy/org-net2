@@ -109,13 +109,13 @@ namespace org_chart_net.Migrations
                     b.HasOne("OrgChartApi.Interfaces.Department", "department")
                         .WithMany()
                         .HasForeignKey("departmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("OrgChartApi.Interfaces.Job", "job")
                         .WithMany()
                         .HasForeignKey("jobId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("OrgChartApi.Interfaces.Employee", "manager")

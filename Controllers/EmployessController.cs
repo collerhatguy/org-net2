@@ -65,5 +65,20 @@ namespace OrgChartApi.Controllers {
       await context.SaveChangesAsync();
       return GetEmployees();
     }
+    [HttpPut]
+    public async Task<ActionResult<List<Employee>>> UpdateEmployee([FromBody] Employee body) {
+      var employee = await context.Employees.FindAsync(body.id);
+      if (employee is null) {
+        return NotFound();
+      }
+      employee.firstName = body.firstName;
+      employee.lastName = body.lastName;
+      employee.middleInitial = body.middleInitial;
+      employee.isManager = body.isManager;
+      employee.departmentId = body.departmentId;
+      employee.jobId = body.jobId;
+      await context.SaveChangesAsync();
+      return GetEmployees();
+    }
   }
 }
