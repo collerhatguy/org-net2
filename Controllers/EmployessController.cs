@@ -28,6 +28,17 @@ namespace OrgChartApi.Controllers {
       if (department is null) {
         return NotFound("Department does not exist");
       }
+      Employee newEmp = new Employee();
+      newEmp.firstName = body.firstName;
+      newEmp.lastName = body.lastName;
+      newEmp.middleInitial = body.middleInitial;
+      newEmp.isManager = body.isManager;
+      newEmp.departmentId = body.departmentId;
+      newEmp.jobId = body.jobId;
+      newEmp.department = department;
+      newEmp.job = job;
+      await context.Employees.AddAsync(newEmp);
+      await context.SaveChangesAsync();
       return GetEmployees();
     }
   }
