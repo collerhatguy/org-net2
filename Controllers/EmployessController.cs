@@ -20,6 +20,29 @@ namespace OrgChartApi.Controllers {
         .Include(x => x.job);
       return Ok(employees);
     }
+    [HttpGet]
+    [Route("managers")]
+    public ActionResult<List<Employee>> GetManagers() {
+      var employees = context.Employees
+        .Where(x => x.isActive)
+        .Where(x => x.isManager)
+        .Include(x => x.department)
+        .Include(x => x.manager)
+        .Include(x => x.job);
+      return Ok(employees);
+    }
+    [HttpGet]
+    [Route("no-managers")]
+    public ActionResult<List<Employee>> GetNoManagers() {
+      var employees = context.Employees
+        .Where(x => x.isActive)
+        .Where(x => x.managerId == null)
+        .Where(x => x.isManager)
+        .Include(x => x.department)
+        .Include(x => x.manager)
+        .Include(x => x.job);
+      return Ok(employees);
+    }
     [HttpPost]
     public async Task<ActionResult<List<Employee>>> PostEmployee([FromBody] EmployeeDto body) {
       if (body is null) {
