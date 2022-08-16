@@ -40,7 +40,7 @@ namespace OrgChartApi.Controllers {
           return NotFound("Manager does not exist");
         }
         manager.isManager = true;
-        newEmp.manager = manager;
+        newEmp.managerId = body.managerId;
       }
       newEmp.firstName = body.firstName;
       newEmp.lastName = body.lastName;
@@ -48,8 +48,6 @@ namespace OrgChartApi.Controllers {
       newEmp.isManager = body.isManager;
       newEmp.departmentId = body.departmentId;
       newEmp.jobId = body.jobId;
-      newEmp.department = department;
-      newEmp.job = job;
       await context.Employees.AddAsync(newEmp);
       await context.SaveChangesAsync();
       return GetEmployees();
@@ -66,7 +64,7 @@ namespace OrgChartApi.Controllers {
       return GetEmployees();
     }
     [HttpPut]
-    public async Task<ActionResult<List<Employee>>> UpdateEmployee([FromBody] Employee body) {
+    public async Task<ActionResult<List<Employee>>> UpdateEmployee([FromBody] EmployeeDto body) {
       var employee = await context.Employees.FindAsync(body.id);
       if (employee is null) {
         return NotFound();
@@ -77,6 +75,9 @@ namespace OrgChartApi.Controllers {
       employee.isManager = body.isManager;
       employee.departmentId = body.departmentId;
       employee.jobId = body.jobId;
+      if (body.managerId != null) {
+        employee.managerId = body.managerId;
+      }
       await context.SaveChangesAsync();
       return GetEmployees();
     }
