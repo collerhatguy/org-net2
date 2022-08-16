@@ -14,6 +14,7 @@ namespace OrgChartApi.Controllers {
     [HttpGet]
     public ActionResult<List<Employee>> GetEmployees() {
       var employees = context.Employees
+        .Where(x => x.isActive)
         .Include(x => x.department)
         .Include(x => x.manager)
         .Include(x => x.job);
@@ -50,6 +51,17 @@ namespace OrgChartApi.Controllers {
       newEmp.department = department;
       newEmp.job = job;
       await context.Employees.AddAsync(newEmp);
+      await context.SaveChangesAsync();
+      return GetEmployees();
+    }
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id) {
+      var employee = await context.Employees.FindAsync(id);
+      if (employee is null) {
+        return NotFound();
+      }
+      employee.isActive = false;
       await context.SaveChangesAsync();
       return GetEmployees();
     }

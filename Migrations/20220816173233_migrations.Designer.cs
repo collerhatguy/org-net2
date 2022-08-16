@@ -12,8 +12,8 @@ using OrgChartApi.Data;
 namespace org_chart_net.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220815175426_departments")]
-    partial class departments
+    [Migration("20220816173233_migrations")]
+    partial class migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,6 +55,9 @@ namespace org_chart_net.Migrations
                     b.Property<string>("firstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("isManager")
                         .HasColumnType("bit");

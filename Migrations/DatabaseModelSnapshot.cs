@@ -54,6 +54,9 @@ namespace org_chart_net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("isManager")
                         .HasColumnType("bit");
 

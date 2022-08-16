@@ -4,7 +4,7 @@
 
 namespace org_chart_net.Migrations
 {
-    public partial class departments : Migration
+    public partial class migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,7 @@ namespace org_chart_net.Migrations
                     lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     middleInitial = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     isManager = table.Column<bool>(type: "bit", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
                     departmentId = table.Column<int>(type: "int", nullable: false),
                     jobId = table.Column<int>(type: "int", nullable: false),
                     managerId = table.Column<int>(type: "int", nullable: true)
