@@ -32,6 +32,16 @@ namespace OrgChartApi.Controllers {
       return Ok(employees);
     }
     [HttpGet]
+    [Route("archives")]
+    public ActionResult<List<Employee>> GetArchives() {
+      var employees = context.Employees
+        .Where(x => x.isActive == false)
+        .Include(x => x.department)
+        .Include(x => x.manager)
+        .Include(x => x.job);
+      return Ok(employees);
+    }
+    [HttpGet]
     [Route("no-managers")]
     public ActionResult<List<Employee>> GetNoManagers() {
       var employees = context.Employees
