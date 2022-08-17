@@ -24,8 +24,7 @@ namespace OrgChartApi.Controllers {
     [Route("managers")]
     public ActionResult<List<Employee>> GetManagers() {
       var employees = context.Employees
-        .Where(x => x.isActive)
-        .Where(x => x.isManager)
+        .Where(x => x.isActive && x.isManager)
         .Include(x => x.department)
         .Include(x => x.manager)
         .Include(x => x.job);
@@ -45,9 +44,7 @@ namespace OrgChartApi.Controllers {
     [Route("no-managers")]
     public ActionResult<List<Employee>> GetNoManagers() {
       var employees = context.Employees
-        .Where(x => x.isActive)
-        .Where(x => x.managerId == null)
-        .Where(x => x.isManager)
+        .Where(x => x.isActive && x.isManager && x.managerId == null)
         .Include(x => x.department)
         .Include(x => x.manager)
         .Include(x => x.job);
@@ -57,9 +54,7 @@ namespace OrgChartApi.Controllers {
     [Route("subordinates/{id}")]
     public ActionResult<List<Employee>> GetSubordinates(int id) {
       var employees = context.Employees
-        .Where(x => x.isActive)
-        .Where(x => x.managerId == id)
-        .Where(x => x.isManager)
+        .Where(x => x.isActive && x.managerId == id && x.isManager)
         .Include(x => x.department)
         .Include(x => x.manager)
         .Include(x => x.job);
