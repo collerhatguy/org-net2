@@ -53,6 +53,18 @@ namespace OrgChartApi.Controllers {
         .Include(x => x.job);
       return Ok(employees);
     }
+    [HttpGet]
+    [Route("subordinates/{id}")]
+    public ActionResult<List<Employee>> GetSubordinates(int id) {
+      var employees = context.Employees
+        .Where(x => x.isActive)
+        .Where(x => x.managerId == id)
+        .Where(x => x.isManager)
+        .Include(x => x.department)
+        .Include(x => x.manager)
+        .Include(x => x.job);
+      return Ok(employees);
+    }
     [HttpPost]
     public async Task<ActionResult<List<Employee>>> PostEmployee([FromBody] EmployeeDto body) {
       if (body is null) {
@@ -69,7 +81,7 @@ namespace OrgChartApi.Controllers {
       Employee newEmp = new Employee();
       if (body.managerId != null) {
         var manager = await context.Employees.FindAsync(body.managerId);
-        if (department is null) {
+        if (manager is null) {
           return NotFound("Manager does not exist");
         }
         manager.isManager = true;
